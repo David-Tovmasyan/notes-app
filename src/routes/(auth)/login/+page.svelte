@@ -70,14 +70,14 @@
             <div>
                 <label for="login" class="block text-sm font-medium leading-6 text-gray-900">Login:</label>
                 <div class="mt-2">
-                    <input id="login" name="login" type="text" autocomplete="login" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-700 sm:text-sm sm:leading-6">
+                    <input id="login" name="login" type="text" autocomplete="login" required class="block w-full rounded-md border-0 indent-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-700 sm:text-sm sm:leading-6">
                 </div>
             </div>
 
             <div>
                 <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password:</label>
                 <div class="mt-2">
-                    <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-700 sm:text-sm sm:leading-6">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md border-0 indent-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-slate-700 sm:text-sm sm:leading-6">
                 </div>
             </div>
 
@@ -89,7 +89,7 @@
             <a href="/signup" class="font-semibold text-slate-700 mt-10 transition hover:text-slate-600">Create an account</a>
         </p>
 
-        <div class="text-sm">
+        <div class="mt-2">
             <a href="/password_reset" class="font-semibold text-slate-700 transition hover:text-slate-600">Forgot password?</a>
         </div>
 
