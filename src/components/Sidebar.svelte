@@ -1,10 +1,8 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import axios from "axios";
-    import {API_URL} from "$lib/constants";
-    import {getCookie} from "$lib/cookies";
     import {getFirstWordsFromString, isEmpty} from "$lib/utils";
     import {currentNote, type INote, notesStore} from "../stores/notesStore";
+    import {fetchNotes, createNote} from "$lib/notesHttpActions";
 
     const errorState = {
         msg: "Error Happened",
@@ -12,18 +10,14 @@
     }
 
     onMount(async ()=>{
-        try{
-            let token: string = getCookie("token");
-            if (token) {
-                const res = await axios.post(API_URL + "notes", {}, { headers: { Authorization: `Token ${token}` } });
-                notesStore.set(res.data);
-            } else {
-                errorState.status = true;
-                errorState.msg = "Token not found";
-            }
-        }catch (e) {
+        const res = await fetchNotes();
+
+        if ('success' in res && res.success) {
+            // alert("Notes fetched successfully");
+        } else {
+            const error = res as Error;
+            errorState.msg = error.message;
             errorState.status = true;
-            errorState.msg = (e as Error).message;
         }
     })
 
@@ -31,13 +25,27 @@
         currentNote.set(note);
     }
 
+    const handleCreateNote = async () =>{
+        let res = await createNote();
+        if(res.hasOwnProperty("success") && res.success){
+            // alert("Note created successfully");
+            console.log("Created");
+            await fetchNotes();
+        }else{
+            const error = res as Error;
+            errorState.msg = error.message;
+            errorState.status = true;
+        }
+    }
+
 </script>
 
 
-<aside id="sidebar" class="absolute top-0 left-0 w-80 h-full transition-transform -translate-x-full sm:translate-x-0 overflow-hidden" aria-label="Sidebar">
+<aside id="sidebar" class="h-full transition-transform -translate-x-full sm:translate-x-0 overflow-hidden border-r-2 border-black" aria-label="Sidebar">
     <div class="h-full overflow-y-auto bg-slate-100 dark:bg-gray-800 overflow-hidden">
         <button
                 class="flex w-full h-14 items-center justify-center bg-sky-500 font-semibold text-xl leading-6 text-white shadow-sm transition hover:bg-sky-600 active:bg-sky-600 focus:bg-sky-500 "
+                on:click={handleCreateNote}
         >
             Create Note
         </button>
