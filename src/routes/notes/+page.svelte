@@ -1,6 +1,5 @@
 <script lang="ts">
     import {currentNote} from "../../stores/notesStore";
-    import Switch from "../../components/Switch.svelte";
     import {goto} from "$app/navigation";
     import {getCookie} from "$lib/cookies.js";
     import {isEmpty} from "$lib/utils";

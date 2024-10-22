@@ -42,7 +42,7 @@
 
 
 <aside id="sidebar" class="h-full transition-transform -translate-x-full sm:translate-x-0 overflow-hidden border-r-2 border-black" aria-label="Sidebar">
-    <div class="h-full overflow-y-auto bg-slate-100 dark:bg-gray-800 overflow-hidden">
+    <div class="h-full overflow-y-auto bg-teal-600 overflow-hidden">
         <button
                 class="flex w-full h-14 items-center justify-center bg-sky-500 font-semibold text-xl leading-6 text-white shadow-sm transition hover:bg-sky-600 active:bg-sky-600 focus:bg-sky-500 "
                 on:click={handleCreateNote}

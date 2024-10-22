@@ -1,19 +1,23 @@
 <script>
 	import '../app.css';
+	import Header from "../components/Header.svelte";
 </script>
 
 <div class="app">
-	
-	<main class="bg-gradient-to-b from-emerald-100 to-emerald-200">
-		<slot />
-	</main>
+	<div class="app_container">
+		<Header/>
 
+		<main class="bg-gradient-to-b from-emerald-100 to-emerald-200">
+			<slot />
+		</main>
+	</div>
 </div>
 
 <style>
-	main{
-		height: 100vh;
-		width: 100vw;
+	.app_container{
+		display: grid;
+		grid-template-rows: 3rem 1fr;
+		min-height: 100vh;
+		height: 100%;
 	}
-
 </style>
