@@ -1,5 +1,5 @@
 <script>
-import Sidebar from "../../components/Sidebar.svelte";
+import Sidebar from "../../ui/Sidebar.svelte";
 </script>
 
 <div class="notes_page">

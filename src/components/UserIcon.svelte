@@ -1,0 +1,12 @@
+<script>
+    // parameter
+    export let userId;
+
+    // This component should get a user id, fetch/get from store username and user's image from the server and display it
+</script>
+
+
+
+<div class="w-8 h-8 rounded-full bg-white cursor-pointer">
+    <img src="https://via.placeholder.com/150" class="w-full h-full rounded-full" alt="avatar">
+</div>

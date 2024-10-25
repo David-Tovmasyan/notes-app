@@ -85,13 +85,16 @@
                 <button type="submit" class="flex w-full justify-center rounded-md bg-slate-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition hover:bg-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600">Sign in</button>
             </div>
         </form>
-        <p class="mt-2">
-            <a href="/signup" class="font-semibold text-slate-700 mt-10 transition hover:text-slate-600">Create an account</a>
-        </p>
+        <div class="w-full flex justify-between">
+            <p class="mt-2">
+                <a href="/signup" class="font-semibold text-slate-700 mt-10 transition hover:text-slate-600">Create an account</a>
+            </p>
 
-        <div class="mt-2">
-            <a href="/password_reset" class="font-semibold text-slate-700 transition hover:text-slate-600">Forgot password?</a>
+            <div class="mt-2">
+                <a href="/password_reset" class="font-semibold text-slate-700 transition hover:text-slate-600">Forgot password?</a>
+            </div>
         </div>
+
 
     </div>
 </div>

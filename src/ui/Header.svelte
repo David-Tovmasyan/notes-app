@@ -1,6 +1,7 @@
 <script lang="ts">
 import * as Dropdown from "$lib/shadcn/ui/dropdown-menu";
 import {goto} from "$app/navigation";
+import UserIcon from "../components/UserIcon.svelte";
 
 </script>
 
@@ -13,9 +14,7 @@ import {goto} from "$app/navigation";
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
         <Dropdown.Root>
             <Dropdown.Trigger>
-                <div class="w-10 h-10 rounded-full bg-white cursor-pointer">
-                    <img src="https://via.placeholder.com/150" class="w-10 h-10 rounded-full" alt="avatar">
-                </div>
+                <UserIcon userId="1" />
             </Dropdown.Trigger>
             <Dropdown.Content class="w-56">
                 <Dropdown.Group>
