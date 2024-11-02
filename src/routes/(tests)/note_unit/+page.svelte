@@ -1,12 +1,22 @@
-<script>
+<script lang="ts">
     import NoteUnit from "../../../components/NoteUnit.svelte";
+    import {notesStore} from "../../../stores/notesStore";
+    import {isEmpty} from "$lib/utils";
+    import {onMount} from "svelte";
+    import {fetchNotes} from "$lib/notesHttpActions";
 
-    let notes = [1,1,1,1,1];
+    onMount(() => {
+        fetchNotes();
+    });
 </script>
 
 <div class="flex gap-4 flex-wrap">
-{#each notes as note}
-        <NoteUnit />
-{/each}
+        {#if notesStore && !isEmpty($notesStore)}
+            {#each $notesStore as note}
+                <NoteUnit {note} />
+            {/each}
+        {:else}
+            <p class="text-center w-full">No notes found</p>
+        {/if}
 
 </div>

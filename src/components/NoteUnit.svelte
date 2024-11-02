@@ -1,23 +1,19 @@
-<script>
+<script lang="ts">
     import * as Dropdown from "$lib/shadcn/ui/dropdown-menu";
     import {EllipsisVertical} from "lucide-svelte";
+    import type {INote} from "../stores/notesStore";
+    import {isEmpty} from "$lib/utils";
+    import UserIcon from "./UserIcon.svelte";
 
+    export let note:INote;
 
-    let note = {
-        id: 1,
-        title: 'Note title',
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. A voluptate, quos, quas, quod, quidem quae quibusdam quia doloribus voluptatum doloremque. Quisquam, quos. A voluptate, quos, quas, quod, quidem quae quibusdam quia doloribus voluptatum doloremque.',
-        createDate: '2021-09-01',
-        updateDate: '2021-09-01',
-    }
-
-
+    note.note_title = isEmpty(note.note_title) ? "Untitled" : note.note_title;
 </script>
 
-<div class="bg-emerald-50 max-w-72 w-72 h-36 flex justify-center rounded-2xl border-gray-300 border-[1px] shadow-sm">
+<div class="bg-white w-72 h-48 flex justify-center rounded-2xl border-gray-300 border-[1px] shadow-sm cursor-pointer transition hover:border-black hover:shadow-md">
     <div class="p-3 w-full h-full flex flex-col gap-1">
         <div class="flex justify-between items-start h-16">
-            <div>{note.title}</div>
+            <div>{note.note_title}</div>
             <!--  Vertical menu with dropdown          -->
             <Dropdown.Root>
                 <Dropdown.Trigger>
@@ -26,24 +22,38 @@
                 <Dropdown.Content class="w-36">
                     <Dropdown.Group>
                         <Dropdown.Item>
-                            <a href="/login">Copy Note</a>
+                            <a href="/login">Copy</a>
                         </Dropdown.Item>
                         <Dropdown.Item>
-                            <a href="/login">Cut Note</a>
+                            <a href="/login">Cut</a>
                         </Dropdown.Item>
                         <Dropdown.Separator class="w-full max-w-52 h-[1px] ml-1 bg-gray-300 shadow" />
                         <Dropdown.Item>
-                            <a href="/login">Delete Note</a>
+                            <a href="/login">Delete</a>
                         </Dropdown.Item>
                     </Dropdown.Group>
                 </Dropdown.Content>
             </Dropdown.Root>
+
+
         </div>
 
 
         <!-- maybe width and height resize for notes ??  -->
         <div class="text-sm w-full h-20 line-clamp-3">
-            {note.content}
+            {note.note_text}
+        </div>
+
+        <!-- small icons of collaborators (max 3 icons) -->
+        <div class="flex justify-end items-end gap-1 w-full h-14">
+            {#each note.collaborators.slice(0, 3) as collaborator}
+                <UserIcon userId={collaborator.id} size="6" />
+            {/each}
+            {#if note.collaborators.length > 3}
+                <div class="text-slate-600">
+                    +{note.collaborators.length - 3} more
+                </div>
+            {/if}
         </div>
     </div>
 </div>

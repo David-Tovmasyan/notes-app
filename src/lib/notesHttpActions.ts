@@ -102,3 +102,17 @@ export const deleteNote = async (pk:number) => {
         return new Error("Failed to delete note");
     }
 }
+
+export const getNoteById = async (noteId:number) => {
+    try {
+        const response = await axios.post(
+            `${API_URL}note`,
+            {note_id: noteId},
+            {
+                headers: {Authorization: `Token ${token}`},
+            }
+        );
+    } catch (error) {
+        return new Error("Failed to get note");
+    }
+}
