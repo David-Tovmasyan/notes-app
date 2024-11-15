@@ -4,10 +4,16 @@
     import {getCookie} from "$lib/cookies.js";
     import {isEmpty} from "$lib/utils";
     import {updateNote,deleteNote} from "$lib/notesHttpActions";
+    import {onMount} from "svelte";
 
-    if(isEmpty(getCookie("token"))){
-        goto("/login")
-    }
+
+    const token = getCookie("token");
+
+    onMount(()=>{
+        if(isEmpty(token)){
+            goto("/login")
+        }
+    })
 
     $: textareaValue = $currentNote?.note_text;
 
@@ -22,7 +28,6 @@
         }
 
     }
-
 
     const removeNote = async () =>{
         const res = await deleteNote($currentNote.pk);

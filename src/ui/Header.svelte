@@ -5,10 +5,10 @@ import UserIcon from "../components/UserIcon.svelte";
 
 </script>
 
-<header class="h-12 bg-teal-700 border-b shadow">
+<header class="h-12 bg-teal-700 shadow">
 
     <div id="logo" class="flex justify-center items-center text-xl text-white font-bold">
-        <button on:click={()=>goto("/notes")} >Logo</button>
+        <button on:click={()=>goto("/")} >Logo</button>
     </div>
 
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
@@ -43,13 +43,14 @@ import UserIcon from "../components/UserIcon.svelte";
 
     #logo{
         grid-column: 1;
+        padding-left: 8px;
     }
 
-    @media (max-width: 768px) {
-        #logo {
-            grid-column: 2;
-        }
-    }
+    /*@media (max-width: 768px) {*/
+    /*    #logo {*/
+    /*        grid-column: 2;*/
+    /*    }*/
+    /*}*/
 
     #avatar{
         grid-column: 12;

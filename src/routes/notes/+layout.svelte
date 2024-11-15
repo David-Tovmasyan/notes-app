@@ -1,9 +1,19 @@
 <script>
 import Sidebar from "../../ui/Sidebar.svelte";
+import {onMount} from "svelte";
+
+$: sidebarOpen = false;
+
+onMount(()=>{
+    window.addEventListener(('resize'),()=>{
+        sidebarOpen = window.innerWidth >= 768;
+    })
+})
+
 </script>
 
 <div class="notes_page">
-    <Sidebar />
+    <Sidebar {sidebarOpen}/>
     <slot />
 </div>
 

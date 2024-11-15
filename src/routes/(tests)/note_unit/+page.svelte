@@ -7,6 +7,7 @@
 
     onMount(() => {
         fetchNotes();
+        console.log(`notestore: ${notesStore}`);
     });
 </script>
 
@@ -20,3 +21,4 @@
         {/if}
 
 </div>
+

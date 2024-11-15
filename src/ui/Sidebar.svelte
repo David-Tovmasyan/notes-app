@@ -1,72 +1,108 @@
 <script lang="ts">
-    import {onMount} from "svelte";
-    import {getFirstWordsFromString, isEmpty} from "$lib/utils";
-    import {currentNote, type INote, notesStore} from "../stores/notesStore";
-    import {fetchNotes, createNote} from "$lib/notesHttpActions";
+    import { ChevronLeft, ChevronRight, Clipboard, Files, Settings, User, LogOut } from "lucide-svelte";
+    import UserIcon from "../components/UserIcon.svelte";
+    import { type Icon } from "lucide-svelte";
+    import { type ComponentType } from "svelte";
 
-    const errorState = {
-        msg: "Error Happened",
-        status: false,
-    }
-
-    onMount(async ()=>{
-        const res = await fetchNotes();
-
-        if ('success' in res && res.success) {
-            // alert("Notes fetched successfully");
-        } else {
-            const error = res as Error;
-            errorState.msg = error.message;
-            errorState.status = true;
+    const sidebarOverviewItemList: Array<{ label: string; path: string; icon: ComponentType<Icon> }> = [
+        {
+            label: 'Notes',
+            icon: Clipboard,
+            path: "/notes"
+        },
+        {
+            label: 'Files',
+            icon: Files,
+            path: "/files"
         }
-    })
+    ];
 
-    function setCurrentNote(note: INote) {
-        currentNote.set(note);
-    }
-
-    const handleCreateNote = async () =>{
-        let res = await createNote();
-        if(res.hasOwnProperty("success") && res.success){
-            // alert("Note created successfully");
-            console.log("Created");
-            await fetchNotes();
-        }else{
-            const error = res as Error;
-            errorState.msg = error.message;
-            errorState.status = true;
+    const sidebarAccountItemList: Array<{ label: string; path: string; icon: ComponentType<Icon> }> = [
+        {
+            label: 'Settings',
+            icon: Settings,
+            path: "/settings"
+        },
+        {
+            label: 'Account',
+            icon: User,
+            path: "/account"
+        },
+        {
+            label: 'Logout',
+            icon: LogOut,
+            path: "/logout"
         }
-    }
+    ];
 
+    export let sidebarOpen:boolean;
+
+    const handleSidebarToggle = () =>{
+        sidebarOpen = !sidebarOpen;
+    }
 </script>
 
-
-<aside id="sidebar" class="h-full transition-transform -translate-x-full sm:translate-x-0 overflow-hidden border-r-2 border-black" aria-label="Sidebar">
-    <div class="h-full overflow-y-auto bg-teal-600 overflow-hidden">
-        <button
-                class="flex w-full h-14 items-center justify-center bg-sky-500 font-semibold text-xl leading-6 text-white shadow-sm transition hover:bg-sky-600 active:bg-sky-600 focus:bg-sky-500 "
-                on:click={handleCreateNote}
-        >
-            Create Note
-        </button>
-        <div class="w-full h-10 flex justify-end items-center overflow-hidden">
-            <div class="flex items-center gap-2 mr-2">
-                <img src="/sort-down.svg" alt="sort down" class="w-6 h-6 cursor-pointer" />
-                <img src="/reload.svg" alt="reload" class="w-5 h-5 cursor-pointer" />
+<aside
+        id="sidebar"
+        class={`h-full transition-transform sm:translate-x-0 overflow-hidden shadow border-r-[1px] border-gray-300 ${
+        sidebarOpen ? 'w-64' : 'w-16'
+    }`}
+        aria-label="Sidebar"
+>
+    <div class="h-full px-2 overflow-y-auto bg-slate-100 overflow-hidden divide-y">
+        <!-- Avatar + username + dropdown open/close button -->
+        <div class={`w-full h-14 flex items-center ${sidebarOpen ? "" : "flex-col-reverse gap-2 mt-5 mb-4"}`}>
+            <div class={`flex items-center gap-2 ${sidebarOpen ? "w-full justify-start" : "flex-col"}`}>
+                <div>
+                    <UserIcon userId={1} size={8} />
+                </div>
+                {#if sidebarOpen}
+                    <div>Username</div>
+                {/if}
             </div>
+            <button
+                 class="w-1/2 flex justify-end text-slate-500 transition cursor-pointer hover:text-slate-700"
+                 on:click={handleSidebarToggle}
+            >
+                {#if sidebarOpen }
+                    <ChevronLeft />
+                {:else }
+                    <ChevronRight />
+                {/if}
+            </button>
         </div>
 
-        {#if $notesStore && !isEmpty($notesStore)}
-            <div class="flex flex-col gap-2 overflow-hidden">
-                {#each $notesStore as note}
-                    <button class=" h-14 bg-zinc-200 cursor-pointer truncate p-2 text-start" on:click={() => setCurrentNote(note)}>
-                        {getFirstWordsFromString(note.note_text, 10)}
-                    </button>
-                {/each}
-            </div>
-        {/if}
 
+        <div class="py-4">
+            {#if sidebarOpen}
+                <div class="text-sm text-slate-500 capitalize mb-4">Overview</div>
+            {/if}
+            {#each sidebarOverviewItemList as item}
+                <div class="h-10">
+                    <a href={item.path} class={`flex gap-2 items-center text-md ${sidebarOpen? "justify-start" : "justify-center"}`}>
+                        <svelte:component this={item.icon} size="24" />
+                        {#if sidebarOpen}
+                            {item.label}
+                        {/if}
+                    </a>
+                </div>
+            {/each}
+        </div>
+
+        <div class="py-4">
+            {#if sidebarOpen}
+                <div class="text-sm text-slate-500 capitalize mb-4">Account</div>
+            {/if}
+            {#each sidebarAccountItemList as item}
+                <div class="h-10">
+                    <a href={item.path}  class={`flex gap-2 items-center text-md ${sidebarOpen? "justify-start" : "justify-center"}`}>
+                        <svelte:component this={item.icon} size="24" />
+                        {#if sidebarOpen}
+                            {item.label}
+                        {/if}
+                    </a>
+                </div>
+            {/each}
+        </div>
     </div>
 </aside>
-
-
