@@ -56,5 +56,7 @@
 
     {/if}
 
+
+    If this text moves on sidebar toggle, then the layout is working fine.
 </div>
 

@@ -2,107 +2,115 @@
     import { ChevronLeft, ChevronRight, Clipboard, Files, Settings, User, LogOut } from "lucide-svelte";
     import UserIcon from "../components/UserIcon.svelte";
     import { type Icon } from "lucide-svelte";
-    import { type ComponentType } from "svelte";
+    import { type ComponentType, onMount } from "svelte";
+    import { fade } from "svelte/transition";
 
-    const sidebarOverviewItemList: Array<{ label: string; path: string; icon: ComponentType<Icon> }> = [
+    const sidebarItems: Array<{ section: string; label: string; path: string; icon: ComponentType<Icon> }> = [
         {
-            label: 'Notes',
+            section: "Overview",
+            label: "Notes",
             icon: Clipboard,
             path: "/notes"
         },
         {
-            label: 'Files',
+            section: "Overview",
+            label: "Files",
             icon: Files,
             path: "/files"
-        }
-    ];
-
-    const sidebarAccountItemList: Array<{ label: string; path: string; icon: ComponentType<Icon> }> = [
+        },
         {
-            label: 'Settings',
+            section: "Account",
+            label: "Settings",
             icon: Settings,
             path: "/settings"
         },
         {
-            label: 'Account',
+            section: "Account",
+            label: "Account",
             icon: User,
             path: "/account"
         },
         {
-            label: 'Logout',
+            section: "Account",
+            label: "Logout",
             icon: LogOut,
             path: "/logout"
         }
     ];
 
-    export let sidebarOpen:boolean;
-
-    const handleSidebarToggle = () =>{
+    const handleSidebarToggle = () => {
         sidebarOpen = !sidebarOpen;
     }
+
+    // Animation
+
+    const fadeIn = {
+        delay: 100,
+        duration: 200
+    }
+
+    const fadeOut = {
+        delay: 0,
+        duration: 100
+    }
+
+    $: sidebarOpen = true;
+
+    onMount(() => {
+        window.addEventListener('resize', () => {
+            sidebarOpen = window.innerWidth >= 768;
+        })
+    })
 </script>
 
 <aside
         id="sidebar"
-        class={`h-full transition-transform sm:translate-x-0 overflow-hidden shadow border-r-[1px] border-gray-300 ${
-        sidebarOpen ? 'w-64' : 'w-16'
-    }`}
+        style="transition-duration: 600ms"
+        class={`h-full relative transition-all overflow-hidden shadow border-r-[1px] border-gray-300 ${
+    sidebarOpen ? 'w-64' : 'w-16'
+}`}
         aria-label="Sidebar"
 >
-    <div class="h-full px-2 overflow-y-auto bg-slate-100 overflow-hidden divide-y">
-        <!-- Avatar + username + dropdown open/close button -->
-        <div class={`w-full h-14 flex items-center ${sidebarOpen ? "" : "flex-col-reverse gap-2 mt-5 mb-4"}`}>
-            <div class={`flex items-center gap-2 ${sidebarOpen ? "w-full justify-start" : "flex-col"}`}>
-                <div>
-                    <UserIcon userId={1} size={8} />
-                </div>
+    <div class="h-full flex flex-col px-2 overflow-y-auto bg-slate-100">
+        <!-- Avatar + username -->
+        <div class="flex min-h-12">
+            <div class="flex items-center gap-2">
+                <UserIcon userId={1} size={24} />
                 {#if sidebarOpen}
-                    <div>Username</div>
+                    <div in:fade={fadeIn} out:fade={fadeOut} class="text-md w-3/4 truncate">UsernameUsernameUsername</div>
                 {/if}
             </div>
-            <button
-                 class="w-1/2 flex justify-end text-slate-500 transition cursor-pointer hover:text-slate-700"
-                 on:click={handleSidebarToggle}
-            >
-                {#if sidebarOpen }
-                    <ChevronLeft />
-                {:else }
-                    <ChevronRight />
-                {/if}
-            </button>
         </div>
 
-
-        <div class="py-4">
-            {#if sidebarOpen}
-                <div class="text-sm text-slate-500 capitalize mb-4">Overview</div>
-            {/if}
-            {#each sidebarOverviewItemList as item}
-                <div class="h-10">
-                    <a href={item.path} class={`flex gap-2 items-center text-md ${sidebarOpen? "justify-start" : "justify-center"}`}>
-                        <svelte:component this={item.icon} size="24" />
-                        {#if sidebarOpen}
-                            {item.label}
-                        {/if}
-                    </a>
-                </div>
+        <!-- Items section -->
+        <div class="flex flex-col">
+            {#each sidebarItems as item (item.path)}
+                <a
+                        href={item.path}
+                        class="flex items-center h-10 mb-2 gap-2 text-md text-slate-700 transition-colors hover:text-slate-900"
+                >
+                    <div>
+                        <svelte:component this={item.icon}  size="24"></svelte:component>
+                    </div>
+                    {#if sidebarOpen}
+                        <span in:fade={fadeIn} out:fade={fadeOut}>{item.label}</span>
+                    {/if}
+                </a>
             {/each}
         </div>
+    </div>
 
-        <div class="py-4">
+    <!-- Dropdown open/close button -->
+    <div class="absolute right-0 top-3">
+        <button
+                class="transform text-slate-500 transition-transform hover:text-slate-700"
+                on:click={handleSidebarToggle}
+        >
             {#if sidebarOpen}
-                <div class="text-sm text-slate-500 capitalize mb-4">Account</div>
+                <ChevronLeft />
+            {:else}
+                <ChevronRight />
             {/if}
-            {#each sidebarAccountItemList as item}
-                <div class="h-10">
-                    <a href={item.path}  class={`flex gap-2 items-center text-md ${sidebarOpen? "justify-start" : "justify-center"}`}>
-                        <svelte:component this={item.icon} size="24" />
-                        {#if sidebarOpen}
-                            {item.label}
-                        {/if}
-                    </a>
-                </div>
-            {/each}
-        </div>
+        </button>
     </div>
 </aside>

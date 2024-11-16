@@ -4,7 +4,7 @@
     export let size;
 
     if(size === undefined){
-        size = 8;
+        size = 24;
     }
 
 
@@ -13,6 +13,6 @@
 
 
 
-<div class={`w-8 h-8  rounded-full bg-white cursor-pointer`}>
+<div style="width: {size}px" class={`rounded-full bg-white cursor-pointer`}>
     <img src="https://via.placeholder.com/150" class="w-full h-full rounded-full" alt="avatar">
 </div>

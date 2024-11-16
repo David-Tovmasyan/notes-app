@@ -14,7 +14,7 @@ import UserIcon from "../components/UserIcon.svelte";
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
         <Dropdown.Root>
             <Dropdown.Trigger>
-                <UserIcon userId="1" size=8 />
+                <UserIcon userId="1" size=32 />
             </Dropdown.Trigger>
             <Dropdown.Content class="w-56">
                 <Dropdown.Group>
