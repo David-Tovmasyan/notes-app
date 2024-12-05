@@ -1,37 +1,5 @@
-<script>
-    export let option1, option2;
-    let isChecked = true;
-</script>
-
-<div>
-    <label
-            for="themeSwitcherTwo"
-            class="themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center"
-    >
-        <input
-                type="checkbox"
-                name="themeSwitcherTwo"
-                id="themeSwitcherTwo"
-                class="sr-only"
-                checked={isChecked}
-                on:change={()=>isChecked = !isChecked}
-        />
-        <span
-                class="label flex items-center text-sm font-medium text-dark "
-        >
-    {option1}
-    </span>
-        <span
-                class="slider mx-4 flex h-8 w-[60px] items-center rounded-full bg-[#CCCCCE] p-1 duration-200"
-        >
-    <span
-            class="dot h-6 w-6 rounded-full bg-white duration-200"
-    ></span>
-    </span>
-        <span
-                class="label flex items-center text-sm font-medium text-dark "
-        >
-    {option2}
-    </span>
-    </label>
-</div>
+<label class="inline-flex flex-nowrap items-center cursor-pointer">
+    <input type="checkbox" value="" class="sr-only peer">
+    <div class="relative w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Dark Mode</span>
+</label>

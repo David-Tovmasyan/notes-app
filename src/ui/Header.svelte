@@ -2,6 +2,8 @@
 import * as Dropdown from "$lib/shadcn/ui/dropdown-menu";
 import {goto} from "$app/navigation";
 import UserIcon from "../components/UserIcon.svelte";
+import {LogOut, Settings, User} from "lucide-svelte";
+import Switch from "../components/Switch.svelte";
 
 </script>
 
@@ -11,6 +13,11 @@ import UserIcon from "../components/UserIcon.svelte";
         <button on:click={()=>goto("/")} >Logo</button>
     </div>
 
+    <div id="switch">
+        <Switch />
+    </div>
+
+
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
         <Dropdown.Root>
             <Dropdown.Trigger>
@@ -18,14 +25,17 @@ import UserIcon from "../components/UserIcon.svelte";
             </Dropdown.Trigger>
             <Dropdown.Content class="w-56">
                 <Dropdown.Group>
-                    <Dropdown.Item>
-                        <a href="/login">Account</a>
+                    <Dropdown.Item class="flex gap-1 items-center">
+                        <User size="16" />
+                        <a href="/account">Account</a>
                     </Dropdown.Item>
-                    <Dropdown.Item>
+                    <Dropdown.Item class="flex gap-1 items-center">
+                        <Settings size="16" />
                         <a href="/login">Settings</a>
                     </Dropdown.Item>
                     <Dropdown.Separator class="w-full max-w-52 h-[1px] ml-1 bg-gray-300 shadow" />
-                    <Dropdown.Item>
+                    <Dropdown.Item class="flex gap-1 items-center">
+                        <LogOut size="16" />
                         <a href="/login">Log Out</a>
                     </Dropdown.Item>
                 </Dropdown.Group>
@@ -51,6 +61,10 @@ import UserIcon from "../components/UserIcon.svelte";
     /*        grid-column: 2;*/
     /*    }*/
     /*}*/
+
+    #switch{
+        grid-column: 11;
+    }
 
     #avatar{
         grid-column: 12;

@@ -1,11 +1,11 @@
 <script>
-import Sidebar from "../../ui/Sidebar.svelte";
 
+import Sidebar from "../../ui/Sidebar.svelte";
 </script>
 
 <div class="notes_page">
     <Sidebar />
-    <slot />
+    <slot/>
 </div>
 
 <style>
