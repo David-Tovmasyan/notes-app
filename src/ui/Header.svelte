@@ -3,7 +3,7 @@ import * as Dropdown from "$lib/shadcn/ui/dropdown-menu";
 import {goto} from "$app/navigation";
 import UserIcon from "../components/UserIcon.svelte";
 import {LogOut, Settings, User} from "lucide-svelte";
-import Switch from "../components/Switch.svelte";
+import DarkModeSwitch from "../components/DarkModeSwitch.svelte";
 
 </script>
 
@@ -14,9 +14,8 @@ import Switch from "../components/Switch.svelte";
     </div>
 
     <div id="switch">
-        <Switch />
+        <DarkModeSwitch />
     </div>
-
 
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
         <Dropdown.Root>
