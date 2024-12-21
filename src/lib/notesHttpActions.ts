@@ -29,8 +29,8 @@ export const fetchNotes = async ()=> {
     }
 }
 
-export const createNote = async (noteText:string="") => {
-    if (isEmpty(noteText) || noteText === "") {
+export const createNote = async (noteText:string) => {
+    if (isEmpty(noteText)) {
         noteText = EmptyNotePlaceholder;
     }
 
@@ -106,12 +106,16 @@ export const deleteNote = async (pk:number) => {
 export const getNoteById = async (noteId:number) => {
     try {
         const response = await axios.post(
-            `${API_URL}note`,
+            API_URL + "note-id",
             {note_id: noteId},
             {
                 headers: {Authorization: `Token ${token}`},
             }
         );
+
+        if(response.status === 200){
+            return response.data;
+        }
     } catch (error) {
         return new Error("Failed to get note");
     }

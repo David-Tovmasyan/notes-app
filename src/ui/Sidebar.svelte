@@ -101,9 +101,9 @@
     </div>
 
     <!-- Dropdown open/close button -->
-    <div class="absolute right-0 top-3">
+    <div class="absolute right-1 top-3">
         <button
-                class="transform text-slate-500 transition-transform hover:text-slate-700"
+                class="transform text-slate-500 transition-transform rounded-full hover:text-slate-700 hover:bg-slate-300"
                 on:click={handleSidebarToggle}
         >
             {#if sidebarOpen}

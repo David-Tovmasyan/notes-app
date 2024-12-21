@@ -45,12 +45,12 @@
         </div>
 
         <!-- small icons of collaborators (max 3 icons) -->
-        <div class="flex justify-end items-end gap-1 w-full h-14">
+        <div class="flex justify-end items-center gap-1 w-full h-14 relative top-3">
             {#each note.collaborators.slice(0, 3) as collaborator}
-                <UserIcon userId={collaborator.id} size="6" />
+                <UserIcon userId={collaborator.id} size="16" />
             {/each}
             {#if note.collaborators.length > 3}
-                <div class="text-slate-600">
+                <div class="text-slate-600 text-sm">
                     +{note.collaborators.length - 3} more
                 </div>
             {/if}
