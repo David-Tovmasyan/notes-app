@@ -1,5 +1,22 @@
 <script>
 import Sidebar from "../../ui/Sidebar.svelte";
+import {onMount} from "svelte";
+import {getCookie} from "$lib/cookies.js";
+import {isEmpty} from "$lib/utils";
+import {goto} from "$app/navigation";
+import {fetchNotes} from "$lib/notesHttpActions";
+
+let token;
+onMount(()=>{
+    // check if user is logged in
+    token = getCookie("token");
+    if(isEmpty(token)){
+        goto("/login")
+        return;
+    }
+
+    fetchNotes();
+})
 
 </script>
 

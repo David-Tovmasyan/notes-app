@@ -1,24 +1,7 @@
 <script lang="ts">
     import {notesStore} from "../../stores/notesStore";
-    import {goto} from "$app/navigation";
-    import {getCookie} from "$lib/cookies.js";
     import {isEmpty} from "$lib/utils";
-    import {onMount} from "svelte";
     import NoteUnit from "../../components/NoteUnit.svelte";
-    import {fetchNotes} from "$lib/notesHttpActions";
-
-    let token;
-    onMount(()=>{
-        // check if user is logged in
-       token = getCookie("token");
-        if(isEmpty(token)){
-            goto("/login")
-            return;
-        }
-
-
-        fetchNotes();
-    })
 
 </script>
 

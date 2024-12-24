@@ -71,7 +71,7 @@
 }`}
         aria-label="Sidebar"
 >
-    <div class="h-full flex flex-col px-2 overflow-y-auto bg-slate-100">
+    <div class="h-full flex flex-col px-2 overflow-y-auto bg-white">
         <!-- Avatar + username -->
         <div class="flex min-h-12">
             <div class="flex items-center gap-2">
@@ -103,7 +103,7 @@
     <!-- Dropdown open/close button -->
     <div class="absolute right-1 top-3">
         <button
-                class="transform text-slate-500 transition-transform rounded-full hover:text-slate-700 hover:bg-slate-300"
+                class="transform text-slate-500 transition-all rounded-full hover:text-slate-700 hover:bg-slate-300"
                 on:click={handleSidebarToggle}
         >
             {#if sidebarOpen}
