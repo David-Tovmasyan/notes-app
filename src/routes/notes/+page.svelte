@@ -5,8 +5,8 @@
 
 </script>
 
-<div>
-    <div class="flex gap-4 flex-wrap">
+<div class="w-full ">
+    <div class="flex flex-wrap justify-center gap-4 mt-2 sm:mt-8 min-w-10">
         {#if notesStore && !isEmpty($notesStore)}
             {#each $notesStore as note}
                 <a href={`/notes/${note.pk}`}>

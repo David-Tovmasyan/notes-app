@@ -7,6 +7,8 @@
     import {Button} from "$lib/shadcn/ui/button";
     import {goto} from "$app/navigation";
     import X from "lucide-svelte/icons/x";
+    import {Input} from "$lib/shadcn/ui/input";
+    import {Label} from "$lib/shadcn/ui/label";
 
     export let data : NoteId;
 
@@ -79,30 +81,38 @@
             </div>
 
             {#if !isEmpty($currentNote)}
+                <div>Id of the selected/created Note: {noteId}</div>
+                <div>MVP</div>
+                <ul class="list-disc list-outside">
+                    <li class="line-through">Close Button (top right corner)</li>
+                    <li>Change note title</li>
+                    <li>Change note text</li>
+                    <li>Add/Remove/ files</li>
+                    <li>Image files preview and download files</li>
+                    <li>Add/Remove collaborators</li>
+                </ul>
 
+                <br>
+                <div>Optional</div>
+                <ul class="list-disc list-outside">
+                    <li>Enable/Disable live collaboration (optional)</li>
+                    <li>Saving changes on component onmount (onDestroy)</li>
+                    <li>Outside modal click = close (optional)</li>
+                    <li>Option to write markdown in note text</li>
+                </ul>
 
-                        <div>Id of the selected/created Note: {noteId}</div>
-                        <div>MVP</div>
-                        <ul class="list-disc list-outside">
-                            <li class="line-through">Close Button (top right corner)</li>
-                            <li>Change note title</li>
-                            <li>Change note text</li>
-                            <li>Add/Remove/ files</li>
-                            <li>Image files preview and download files</li>
-                            <li>Add/Remove collaborators</li>
-                        </ul>
-
-                        <br>
-                        <div>Optional</div>
-                        <ul class="list-disc list-outside">
-                            <li>Enable/Disable live collaboration (optional)</li>
-                            <li>Saving changes on component onmount (onDestroy)</li>
-                            <li>Outside modal click = close (optional)</li>
-                            <li>Option to write markdown in note text</li>
-                        </ul>
-
-
-
+<!--            Collaborators-->
+                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                    Collaborators
+                </h4>
+<!--            Files manager-->
+                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                    File Manager
+                </h4>
+                <div class="grid w-full max-w-sm items-center gap-1.5">
+                    <Label for="file_upload">Add Files</Label>
+                    <Input id="file_upload" type="file" />
+                </div>
 
             {:else}
                 <p>{errMsg}</p>
