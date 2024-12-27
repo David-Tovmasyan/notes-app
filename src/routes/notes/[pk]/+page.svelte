@@ -5,22 +5,33 @@
     import {isEmpty} from "$lib/utils";
     import {getNoteById} from "$lib/notesHttpActions";
     import {Button} from "$lib/shadcn/ui/button";
-    import {goto} from "$app/navigation";
     import X from "lucide-svelte/icons/x";
     import {Input} from "$lib/shadcn/ui/input";
     import {Label} from "$lib/shadcn/ui/label";
+    import {Textarea} from "$lib/shadcn/ui/textarea";
+    import {Checkbox} from "$lib/shadcn/ui/checkbox";
+    import {MarkdownEditor, Carta} from "carta-md";
+    import { math } from '@cartamd/plugin-math';
+    import { emoji } from '@cartamd/plugin-emoji';
+    import 'carta-md/default.css';
+    import 'katex/dist/katex.css';
+    import DOMPurify from 'isomorphic-dompurify';
+
+    const carta = new Carta({
+        sanitizer: DOMPurify.sanitize,
+        extensions: [emoji(), math()]
+    });
+
+    const errMsg = `The Note was not found`;
 
     export let data : NoteId;
-
     const noteId = data.noteId;
-
     $: noteIdInt = parseInt(noteId);
 
-    const errMsg = `A note with the ${noteId} id was not found`;
-
     let note:INote;
-
     currentNote.subscribe(value => note = value);
+
+    let markdownEnabled = true;
 
     // version with a request to the server to get the note by id
     // More preferable
@@ -81,25 +92,63 @@
             </div>
 
             {#if !isEmpty($currentNote)}
-                <div>Id of the selected/created Note: {noteId}</div>
-                <div>MVP</div>
-                <ul class="list-disc list-outside">
-                    <li class="line-through">Close Button (top right corner)</li>
-                    <li>Change note title</li>
-                    <li>Change note text</li>
-                    <li>Add/Remove/ files</li>
-                    <li>Image files preview and download files</li>
-                    <li>Add/Remove collaborators</li>
-                </ul>
+<!--                <div>Id of the selected/created Note: {noteId}</div>-->
+<!--                <div>MVP</div>-->
+<!--                <ul class="list-disc list-outside">-->
+<!--                    <li class="line-through">Close Button (top right corner)</li>-->
+<!--                    <li>Change note title</li>-->
+<!--                    <li>Change note text</li>-->
+<!--                    <li>Add/Remove/ files</li>-->
+<!--                    <li>Image files preview and download files</li>-->
+<!--                    <li>Add/Remove collaborators</li>-->
+<!--                </ul>-->
 
-                <br>
-                <div>Optional</div>
-                <ul class="list-disc list-outside">
-                    <li>Enable/Disable live collaboration (optional)</li>
-                    <li>Saving changes on component onmount (onDestroy)</li>
-                    <li>Outside modal click = close (optional)</li>
-                    <li>Option to write markdown in note text</li>
-                </ul>
+<!--                <br>-->
+<!--                <div>Optional</div>-->
+<!--                <ul class="list-disc list-outside">-->
+<!--                    <li>Enable/Disable live collaboration (optional)</li>-->
+<!--                    <li>Saving changes on component onmount (onDestroy)</li>-->
+<!--                    <li>Outside modal click = close (optional)</li>-->
+<!--                    <li>Option to write markdown in note text</li>-->
+<!--                </ul>-->
+
+<!--            Main things-->
+
+                <div class="w-full">
+
+                    <div class="w-full max-w-80">
+                        <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                            Title
+                        </h4>
+
+                        <Input type="text" id="title" bind:value={note.note_title} />
+
+                    </div>
+
+
+
+                    <div class="grid w-full gap-1.5">
+                        <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                            Text
+                        </h4>
+
+                        <div class="flex items-center space-x-2">
+                            <Checkbox id="enable_markdown" bind:checked={markdownEnabled} aria-labelledby="enable_markdown" />
+                            <Label
+                                    id="enable_markdown"
+                                    for="enable_markdown"
+                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Enable Markdown
+                            </Label>
+                        </div>
+
+                        <div>
+<!--                            <Textarea contenteditable="true" id="note_text" bind:value={note.note_text} class="min-h-60" />-->
+                                <MarkdownEditor {carta} />
+                        </div>
+                    </div>
+                </div>
 
 <!--            Collaborators-->
                 <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
@@ -121,4 +170,11 @@
     </div>
 </div>
 
+<style>
+    /* Set your monospace font (Required to have the editor working correctly!) */
+    :global(.carta-font-code) {
+        font-family: '...', monospace;
+        font-size: 1.1rem;
+    }
+</style>
 
