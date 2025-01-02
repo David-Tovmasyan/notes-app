@@ -54,7 +54,7 @@
         duration: 100
     }
 
-    $: sidebarOpen = true;
+    $: sidebarOpen = window.innerWidth >= 768;
 
     onMount(() => {
         window.addEventListener('resize', () => {
