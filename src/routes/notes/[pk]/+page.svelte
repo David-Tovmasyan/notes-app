@@ -1,21 +1,21 @@
 <script lang="ts">
     import type {NoteId} from "./+page";
-    import {currentNote, type INote, notesStore} from "../../../stores/notesStore";
+    import {currentNote, type INote} from "../../../stores/notesStore";
     import {onMount} from "svelte";
     import {isEmpty} from "$lib/utils";
-    import {getNoteById} from "$lib/notesHttpActions";
-    import {Button} from "$lib/shadcn/ui/button";
+    import {getNoteById} from "../../../services/notesApi";
     import X from "lucide-svelte/icons/x";
     import {Input} from "$lib/shadcn/ui/input";
     import {Label} from "$lib/shadcn/ui/label";
-    import {Textarea} from "$lib/shadcn/ui/textarea";
-    import {Checkbox} from "$lib/shadcn/ui/checkbox";
     import {MarkdownEditor, Carta} from "carta-md";
     import { math } from '@cartamd/plugin-math';
     import { emoji } from '@cartamd/plugin-emoji';
     import 'carta-md/default.css';
     import 'katex/dist/katex.css';
+    import '@cartamd/plugin-code/default.css';
     import DOMPurify from 'isomorphic-dompurify';
+    import CollaboratorList from "../../../components/CollaboratorList.svelte";
+    import ContentWrapper from "../../../components/layout/ContentWrapper.svelte";
 
     const carta = new Carta({
         sanitizer: DOMPurify.sanitize,
@@ -31,10 +31,7 @@
     let note:INote;
     currentNote.subscribe(value => note = value);
 
-    let markdownEnabled = true;
-
-    // version with a request to the server to get the note by id
-    // More preferable
+    // request to the server to get the note by id
 
     onMount(async ()=>{
         if(isEmpty(noteId)) {
@@ -49,125 +46,68 @@
             currentNote.set(data[0]);
             return;
         }
-
     })
 
-    // Version with taking note from the store
-    // onMount(async ()=>{
-    //     if(isEmpty(noteId)) {
-    //         return;
-    //     }
-    //
-    //     if(!noteIdInt){
-    //         return;
-    //     }
-    //
-    //     if(isEmpty($notesStore)){
-    //         await fetchNotes();
-    //     }
-    //
-    //     if(!isEmpty($notesStore)) {
-    //         for(let i=0; i < $notesStore.length; i++){
-    //             if($notesStore[i].pk === noteIdInt){
-    //                 currentNote.set($notesStore[i]);
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // })
+    console.log(note);
 
 </script>
 
 <div>
-    <div class="h-full w-full flex justify-center items-center">
-        <div class="relative w-11/12 h-full mt-5 py-4 px-8 rounded-lg shadow-lg bg-white border-[1px] border-gray-300">
+    <ContentWrapper>
+        <!--    Close/Back button-->
+        <div class="absolute top-3 right-3">
+            <a href="/notes">
+                <button class="text-slate-500 p-1 transition-all rounded-full hover:text-slate-700 hover:bg-slate-300">
+                    <X />
+                </button>
+            </a>
+        </div>
 
-            <!--    Close/Back button-->
-            <div class="absolute top-3 right-3">
-                <a href="/notes">
-                    <button class="text-slate-500 p-1 transition-all rounded-full hover:text-slate-700 hover:bg-slate-300">
-                        <X />
-                    </button>
-                </a>
+        {#if !isEmpty($currentNote)}
+
+            <div class="w-full">
+
+                <div class="w-full max-w-80">
+                    <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                        Title
+                    </h4>
+
+                    <Input type="text" id="title" bind:value={note.note_title} />
+
+                </div>
+
+                <div class="grid w-full gap-1.5">
+                    <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                        Text
+                    </h4>
+
+                    <div>
+                        <MarkdownEditor {carta} />
+                    </div>
+                </div>
             </div>
 
-            {#if !isEmpty($currentNote)}
-<!--                <div>Id of the selected/created Note: {noteId}</div>-->
-<!--                <div>MVP</div>-->
-<!--                <ul class="list-disc list-outside">-->
-<!--                    <li class="line-through">Close Button (top right corner)</li>-->
-<!--                    <li>Change note title</li>-->
-<!--                    <li>Change note text</li>-->
-<!--                    <li>Add/Remove/ files</li>-->
-<!--                    <li>Image files preview and download files</li>-->
-<!--                    <li>Add/Remove collaborators</li>-->
-<!--                </ul>-->
+            <!--            Collaborators-->
+            <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                Collaborators
+            </h4>
 
-<!--                <br>-->
-<!--                <div>Optional</div>-->
-<!--                <ul class="list-disc list-outside">-->
-<!--                    <li>Enable/Disable live collaboration (optional)</li>-->
-<!--                    <li>Saving changes on component onmount (onDestroy)</li>-->
-<!--                    <li>Outside modal click = close (optional)</li>-->
-<!--                    <li>Option to write markdown in note text</li>-->
-<!--                </ul>-->
-
-<!--            Main things-->
-
-                <div class="w-full">
-
-                    <div class="w-full max-w-80">
-                        <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                            Title
-                        </h4>
-
-                        <Input type="text" id="title" bind:value={note.note_title} />
-
-                    </div>
+            <CollaboratorList collaborators={note.collaborators} />
 
 
+            <!--            Files manager-->
+            <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+                File Manager
+            </h4>
+            <div class="grid w-full max-w-sm items-center gap-1.5">
+                <Label for="file_upload">Add Files</Label>
+                <Input id="file_upload" type="file" />
+            </div>
 
-                    <div class="grid w-full gap-1.5">
-                        <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                            Text
-                        </h4>
-
-                        <div class="flex items-center space-x-2">
-                            <Checkbox id="enable_markdown" bind:checked={markdownEnabled} aria-labelledby="enable_markdown" />
-                            <Label
-                                    id="enable_markdown"
-                                    for="enable_markdown"
-                                    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                                Enable Markdown
-                            </Label>
-                        </div>
-
-                        <div>
-<!--                            <Textarea contenteditable="true" id="note_text" bind:value={note.note_text} class="min-h-60" />-->
-                                <MarkdownEditor {carta} />
-                        </div>
-                    </div>
-                </div>
-
-<!--            Collaborators-->
-                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                    Collaborators
-                </h4>
-<!--            Files manager-->
-                <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
-                    File Manager
-                </h4>
-                <div class="grid w-full max-w-sm items-center gap-1.5">
-                    <Label for="file_upload">Add Files</Label>
-                    <Input id="file_upload" type="file" />
-                </div>
-
-            {:else}
-                <p>{errMsg}</p>
-            {/if}
-        </div>
-    </div>
+        {:else}
+            <p>{errMsg}</p>
+        {/if}
+    </ContentWrapper>
 </div>
 
 <style>

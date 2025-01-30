@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Moon, Sun } from "lucide-svelte";
-    import {cn} from "$lib/cn";
+    import {cn} from "$lib/utils";
 
     $: isDarkMode = localStorage.getItem("color-theme") === "dark" ||
         (!localStorage.getItem("color-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);

@@ -1,10 +1,10 @@
 <script>
-import Sidebar from "../../ui/Sidebar.svelte";
+import Sidebar from "../../components/layout/Sidebar.svelte";
 import {onMount} from "svelte";
 import {getCookie} from "$lib/cookies.js";
 import {isEmpty} from "$lib/utils";
 import {goto} from "$app/navigation";
-import {fetchNotes} from "$lib/notesHttpActions";
+import {fetchNotes} from "../../services/notesApi";
 
 let token;
 onMount(()=>{

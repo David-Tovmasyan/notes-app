@@ -1,9 +1,11 @@
 <script lang="ts">
     import { ChevronLeft, ChevronRight, Clipboard, Files, Settings, User, LogOut } from "lucide-svelte";
-    import UserIcon from "../components/UserIcon.svelte";
+    import UserIcon from "../UserIcon.svelte";
     import { type Icon } from "lucide-svelte";
     import { type ComponentType, onMount } from "svelte";
     import { fade } from "svelte/transition";
+    import { accountStore } from "../../stores/usersStore";
+    import {isEmpty} from "$lib/utils";
 
     const sidebarItems: Array<{ section: string; label: string; path: string; icon: ComponentType<Icon> }> = [
         {
@@ -71,13 +73,13 @@
 }`}
         aria-label="Sidebar"
 >
-    <div class="h-full flex flex-col px-2 overflow-y-auto bg-white">
+    <div class="h-full flex flex-col px-2 overflow-y-auto overflow-x-hidden bg-white">
         <!-- Avatar + username -->
         <div class="flex min-h-12">
             <div class="flex items-center gap-2">
-                <UserIcon userId={1} size={24} />
-                {#if sidebarOpen}
-                    <div in:fade={fadeIn} out:fade={fadeOut} class="text-md w-3/4 truncate">UsernameUsernameUsername</div>
+                <UserIcon size={24} />
+                {#if sidebarOpen && !isEmpty($accountStore)}
+                    <div in:fade={fadeIn} out:fade={fadeOut} class="text-md w-3/4 truncate">{$accountStore.username}</div>
                 {/if}
             </div>
         </div>

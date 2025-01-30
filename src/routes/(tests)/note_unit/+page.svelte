@@ -3,7 +3,7 @@
     import {notesStore} from "../../../stores/notesStore";
     import {isEmpty} from "$lib/utils";
     import {onMount} from "svelte";
-    import {fetchNotes} from "$lib/notesHttpActions";
+    import {fetchNotes} from "../../../services/notesApi";
 
     onMount(() => {
         fetchNotes();

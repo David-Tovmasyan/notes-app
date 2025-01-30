@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@cartamd/plugin-code": "^4.0.6",
 		"@cartamd/plugin-emoji": "^4.2.1",
 		"@cartamd/plugin-math": "^4.2.1",
 		"axios": "^1.7.7",

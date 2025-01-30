@@ -1,5 +1,4 @@
 import {writable} from "svelte/store";
-import {fetchNotes} from "$lib/notesHttpActions";
 
 export interface INote {
     pk: number;

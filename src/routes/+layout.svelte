@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
 	import '../app.css';
-	import Header from "../ui/Header.svelte";
+	import Header from "../components/layout/Header.svelte";
+
+
 </script>
 
 <div class="app">

@@ -1,9 +1,9 @@
 <script lang="ts">
 import * as Dropdown from "$lib/shadcn/ui/dropdown-menu";
 import {goto} from "$app/navigation";
-import UserIcon from "../components/UserIcon.svelte";
+import UserIcon from "../UserIcon.svelte";
 import {LogOut, Settings, User} from "lucide-svelte";
-import DarkModeSwitch from "../components/DarkModeSwitch.svelte";
+import DarkModeSwitch from "../DarkModeSwitch.svelte";
 
 </script>
 
@@ -13,14 +13,14 @@ import DarkModeSwitch from "../components/DarkModeSwitch.svelte";
         <button on:click={()=>goto("/")} >Logo</button>
     </div>
 
-    <div id="switch">
-        <DarkModeSwitch />
-    </div>
+<!--    <div id="switch">-->
+<!--        <DarkModeSwitch />-->
+<!--    </div>-->
 
     <div id="avatar" class="flex justify-end items-center pr-2 text-xl text-white font-bold">
         <Dropdown.Root>
             <Dropdown.Trigger>
-                <UserIcon userId="1" size=32 />
+                <UserIcon size={24} />
             </Dropdown.Trigger>
             <Dropdown.Content class="w-56">
                 <Dropdown.Group>
